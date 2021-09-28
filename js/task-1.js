@@ -65,100 +65,74 @@ const galleryItems = [
   ];
 
 
+ const imageEl = document.querySelector('.js-gallery');
   
-const imageEl = document.querySelector('.js-gallery');
-const openmodal = document.querySelector('.js-lightbox');
-const backdropClose = document.querySelector('.lightbox__overlay');
-const imageRef = document.querySelector('.lightbox__image');
-const closeBtn = document.querySelector('[data-action="close-lightbox"]');
+  const backdropClose = document.querySelector('.lightbox__overlay');
 
-const imagesMarkUp = createImagesList(galleryItems);
-imageEl.insertAdjacentHTML('beforeend', imagesMarkUp);
-
-imageEl.addEventListener('click', onImageClick);
-closeBtn.addEventListener('click',onCloseBtn);
-//backdropClose.addEventListener('click',onBackdropClick);
-//imageRef.addEventListener('click', onImageClickSrc);
-
-
-//Добавляю класс на is-open
-const isOpen = document.querySelector(".lightbox");
-console.log(isOpen);
-//const isOpenSwatch = isOpen.classList.add('is-open');
+  const imageRef = document.querySelector('.lightbox__image');
+  const closeBtn = document.querySelector('[data-action="close-lightbox"]');
+  
+  const galleryContent = document.querySelector('lightbox__content')
 
 
 
-//Добавила на gallery фото
-function createImagesList(galleryItems){
-    //galleryItems.preventDefault();
-    return galleryItems 
-    .map(({preview,description })=>{
-    return `
-    <li class="gallery__item">
-     <a
-     class="gallery__link"
-     href="${preview}"
-     >
-     <img
-      class="gallery__image"
-      src="${preview}"
-      data-source="${description}"
-      alt="Tulips"
-      />
-      </a>
-     </li>`;
-     })
-     .join('');
-     };
+  const openmodal = document.querySelector('.js-lightbox');
+  const galleryEl = document.querySelector('.gallery')
+  const imagesMarkUp = createImagesList(galleryItems);
+
+  //Добавляю коллекцию фото 
+  galleryEl.insertAdjacentHTML('beforeend', imagesMarkUp);
+
+  //вешаю слушателя на gallery
+  galleryEl.addEventListener('click', onGalleryClick);
 
 
 
-//подмена src 
-function imageRefA(galleryItems){
-  //  galleryItems.preventDefault();
-  //  return galleryItems
-   // .map(({src})=>{
-   //     return 
-    //    `"${description}"
-      //
-      //  `
-    //})
-   
-}
+  //функция проверки клика по карточке и добавления класса 'is-open'
 
+ function onGalleryClick(evt) {
+  evt.preventDefault(evt);
 
-//открытие модалки 
-function onImageClick(e){
-   //console.log(e.target);
-   e.preventDefault();
-   const isOpenSwatch = isOpen.classList.add('is-open');
- if(!isOpenSwatch){
-   return ;
-}
+    const isGallerySwatch = evt.target.classList.contains('gallery__item');
+      if(!isGallerySwatch){
+        return;
+       }
 
-};
+       openmodal.classList.add('is-open');
+       
+    }
 
-//function onBackdropClick(e){
-
-//};
-
-function onCloseBtn(e){
-console.log(e.target);
-const swatchEl = e.target;
-const parentCard = swatchEl.closest('.lightbox')
- console.log(parentCard);
-
- const currentCardActive = document.querySelector('.lightbox.is-open')
- console.log(currentCardActive);
-
-
- if(parentCard) {
-    parentCard.classList.remove('.is-open');
- }
-};
+  //Добавила на gallery фото
+    function createImagesList(galleryItems){
+  
+  return galleryItems 
+  .map(({preview,description })=>{
+  return `
+  <li class="gallery__item">
+   <a
+   class="gallery__link"
+   href="${preview}"
+   >
+   <img
+    class="gallery__image"
+    src="${preview}"
+    data-source="${description}"
+    alt="Tulips"
+    />
+    </a>
+   </li>`;
+   })
+   .join('');
+   };
 
 
 
-//function onEscPress(e){
 
-//}
+
+
+
+
+
+
+
+
