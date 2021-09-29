@@ -65,65 +65,88 @@ const galleryItems = [
   ];
 
 
- const imageEl = document.querySelector('.js-gallery');
-  
   const backdropClose = document.querySelector('.lightbox__overlay');
 
   const imageRef = document.querySelector('.lightbox__image');
-  const closeBtn = document.querySelector('[data-action="close-lightbox"]');
+  const closeBtn = document.querySelector('button[data-action="close-lightbox"]');
   
-  const galleryContent = document.querySelector('lightbox__content')
 
-
-
-  const openmodal = document.querySelector('.js-lightbox');
   const galleryEl = document.querySelector('.gallery')
-  const imagesMarkUp = createImagesList(galleryItems);
-
-  //Добавляю коллекцию фото 
-  galleryEl.insertAdjacentHTML('beforeend', imagesMarkUp);
-
-  //вешаю слушателя на gallery
-  galleryEl.addEventListener('click', onGalleryClick);
-
-
+  const openmodal = document.querySelector('.lightbox');
+  
 
   //функция проверки клика по карточке и добавления класса 'is-open'
 
- function onGalleryClick(evt) {
-  evt.preventDefault(evt);
 
-    const isGallerySwatch = evt.target.classList.contains('gallery__item');
-      if(!isGallerySwatch){
-        return;
-       }
+  galleryItems.map(
+    (item, index) =>
+      (galleryEl.innerHTML += `<li class="gallery__item">
+    <a class="gallery__link"
+    href="${item.original}">
+    <img class="gallery__image"
+    src="${item.preview}"
+    data-source="${item.original}"
+    data-id="${index}"
+    alt="${item.description}"/>
+        </a>
+   </li>`)
 
-       openmodal.classList.add('is-open');
-       
+   
+  );
+
+  galleryEl.addEventListener("click", onClickImage)
+
+
+
+
+  function onClickImage(evt) {
+    evt.preventDefault(evt);
+  
+    if(!evt.target.nodeName=== "IMG"){
+      return
     }
+    openmodal.classList.add('is-open');
+
+
+    imageRef.src=evt.target.dataset.source;
+    imageRef.alt=evt.target.alt;
+
+    } 
+       
+   window.addEventListener('click', onButtotClick)
+   function onButtotClick (e){
+     if(e.target.nodeName==="BUTTON"){
+      imageRef.src="";
+    imageRef.alt="";
+    openmodal.classList.remove('is-open');
+     }
+ 
+   }  
+
+
 
   //Добавила на gallery фото
-    function createImagesList(galleryItems){
+  //  function createImagesList(galleryItems){
   
-  return galleryItems 
-  .map(({preview,description })=>{
-  return `
-  <li class="gallery__item">
-   <a
-   class="gallery__link"
-   href="${preview}"
-   >
-   <img
-    class="gallery__image"
-    src="${preview}"
-    data-source="${description}"
-    alt="Tulips"
-    />
-    </a>
-   </li>`;
-   })
-   .join('');
-   };
+ // return galleryItems 
+ // .map(({preview,description })=>{
+  //return `
+  //<li class="gallery__item">
+   //<a
+   //class="gallery__link"
+   //href="${preview}"
+   //>
+   //<img
+   // class="gallery__image"
+    //src="${preview}"
+    //data-source="${description}"
+    //alt="Tulips"
+    ///>
+    //</a>
+   //</li>`;
+   //})
+   //.join('');
+   //};
 
 
 
