@@ -66,21 +66,28 @@ const galleryItems = [
 
 
   const backdropClose = document.querySelector('.lightbox__overlay');
-
+  const lightboxRef = document.querySelector('.lightbox');
   const imageRef = document.querySelector('.lightbox__image');
   const closeBtn = document.querySelector('button[data-action="close-lightbox"]');
   
 
   const galleryEl = document.querySelector('.gallery')
   const openmodal = document.querySelector('.lightbox');
+  const modalContent = document.querySelector('.lightbox__content')
+  const dataSources = [];
   
+  galleryEl.addEventListener("click", onClickImage)
+  window.addEventListener('click', onButtotClick);
+
 
   //функция проверки клика по карточке и добавления класса 'is-open'
 
 
   galleryItems.map(
-    (item, index) =>
-      (galleryEl.innerHTML += `<li class="gallery__item">
+    (item, index) =>(
+
+
+      galleryEl.innerHTML += `<li class="gallery__item">
     <a class="gallery__link"
     href="${item.original}">
     <img class="gallery__image"
@@ -90,13 +97,17 @@ const galleryItems = [
     alt="${item.description}"/>
         </a>
    </li>`)
-
-   
   );
+  
+ ;
+ 
+ //galleryItems.map(element => {
+ // dataSources.push(element.target.src);
+// console.log(element);
+  
+//})
 
-  galleryEl.addEventListener("click", onClickImage)
-
-
+//открытие модалки по клику на img
 
 
   function onClickImage(evt) {
@@ -113,7 +124,8 @@ const galleryItems = [
 
     } 
        
-   window.addEventListener('click', onButtotClick)
+   //закрытие модалкипо клику button
+
    function onButtotClick (e){
      if(e.target.nodeName==="BUTTON"){
       imageRef.src="";
@@ -122,6 +134,122 @@ const galleryItems = [
      }
  
    }  
+
+
+
+
+
+
+   //закрытие по кнопке ESC
+    window.addEventListener('keydown', e => {
+    //currentIndex= dataSourse.indexOf(modalContent.src);
+    if(e.key === "Escape") {
+      lightboxRef.classList.remove('is-open');
+      imageRef.src="";
+      imageRef.alt="";
+      return
+   
+  }
+
+});
+
+
+//Прокрутка фото
+
+
+
+
+
+function leftClick(currentIndex){
+  let nextIndex = currentIndex - 1;
+  if (nextIndex == -1) {
+    nextIndex = dataSources.length - 1;
+  }
+  modalContent.src = dataSources[nextIndex];
+};
+
+
+
+function rightClick(currentIndex) {
+  let nextIndex = currentIndex + 1;
+  if (nextIndex === dataSources.length) {
+    nextIndex = 0;
+  } modalContent.src = dataSources[nextIndex]
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//function scroling(key) {
+ // const imgCurrentLink = document.querySelector('.lightbox__image').src;
+ // const imgCount = modalContent.currentIndex;
+  //const currentIndex = backdropClose.galleryItems.findIndex(
+  //  (link) => link.original ===imgCurrentLink
+  //);
+
+  //let newIndex;
+
+  //switch (key) {
+    //case "ArrowRight":
+      //newIndex =
+      //currentIndex < imgCount - 1
+     // ? (newIndex = currentIndex + 1)
+      //: (newIndex = 0);
+      //break;
+     // case "ArrowLeft" :
+     //   newIndex = 
+      //  currentIndex > 0
+       // ? (newIndex = currentIndex - 1)
+        //: (newIndex = imgCount - 1);
+       // break;
+  //}
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
